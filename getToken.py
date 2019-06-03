@@ -1,13 +1,12 @@
 import jieba
-import nltk
 import re, string
-import matplotlib.pyplot
 
 def HandlePunctuation(w):
 	'''
 	处理标点符号
 	'''
-	w = re.sub(pattern="[\u0060|\u0021-\u002c|\u002e-\u002f|\u003a-\u003f|\u2200-\u22ff|\uFB00-\uFFFD|\u2E80-\u33FF]", repl=' ', string=w)
+	punc = r"[\u0060|\u0021-\u002c|\u002e-\u002f|\u003a-\u003f|\u2200-\u22ff|\uFB00-\uFFFD|\u2E80-\u33FF]"
+	w = re.sub(pattern=punc, repl=' ', string=w)
 	return w
 
 def getToken(w):
