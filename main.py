@@ -3,6 +3,7 @@ import getToken as token
 from wordcloud import WordCloud
 
 import sys
+import time
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
@@ -102,6 +103,7 @@ def getDataAndToken(opt):
 	return d_tokens
 
 if __name__ == "__main__":
+	print('> Get data start')
 	try:
 		gitee_list = getDataAndToken(data.WebSite.Gitee)
 		github_list = getDataAndToken(data.WebSite.Github)

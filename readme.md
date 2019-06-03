@@ -4,9 +4,9 @@
 + Big Project of School
 
 ### Date
-+ Gitee repo rank
-+ Github repo rank
-+ CSDN search keyword rank
+> + Gitee repo rank
+> + Github repo rank
+> + CSDN search keyword rank
 
 ### Environment
 + Python 3.6.3
@@ -18,3 +18,4 @@
 ```bash
 python3 main.py
 ```
+![ShotCut](./ScreenShotCut (6-3) .jpg)
