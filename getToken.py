@@ -1,4 +1,5 @@
 import jieba
+import jieba.analyse
 import re, string
 
 def HandlePunctuation(w):
@@ -13,8 +14,8 @@ def getToken(w):
 	'''
 	获取文字 token，保留中英文
 	'''
-	wl = jieba.lcut(w)
+	# wl = jieba.lcut(w)
 	# wl = jieba.cut(w, cut_all=True)
-	while ' ' in wl:
-		wl.remove(' ')
-	return wl
+	# while ' ' in wl:
+	# 	wl.remove(' ')
+	return jieba.analyse.extract_tags(w)
