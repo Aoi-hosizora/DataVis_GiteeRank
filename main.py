@@ -38,10 +38,12 @@ def analyse(tokens, tokencnt, percnt, title):
 			src.update({t: src.get(t) + 1})
 	
 	src = dict(sorted(src.items(), key=lambda v: (v[1], v[0]), reverse=True)[0: tokencnt])
+	print("> " + title)
 	print(src)
 	
 	# 新页面
 	plt.figure()
+	title = title + "(统计总数: {})".format(len(tokens))
 	plt.suptitle(title, fontsize = SupTitle_Size)
 
 	# wordcloud
@@ -94,19 +96,29 @@ def getDataAndToken(opt):
 	'''
 	cnt, title, desc = data.getData(opt)
 	d_tokens = []
-	for t, d in zip(title, desc):
+	for d in desc:
 		d_nopunc = token.HandlePunctuation(d)
 		d_tokens += token.getToken(d_nopunc)
 	return d_tokens
 
 if __name__ == "__main__":
-	gitee_list = getDataAndToken(data.WebSite.Gitee)
-	github_list = getDataAndToken(data.WebSite.Github)
+	try:
+		gitee_list = getDataAndToken(data.WebSite.Gitee)
+		github_list = getDataAndToken(data.WebSite.Github)
+		csdn_list = getDataAndToken(data.WebSite.Csdn)
+	except data.GetDataNetWorkException as ex:
+		ex.printErrorMsg()
+		exit(1)
 
 	tokencnt = 35 # 使用的 Token 总数
 	percnt = 15 # 圆饼图显示的块数
 
-	analyse(gitee_list, tokencnt, percnt, 'Gitee 热门词汇统计')
-	analyse(github_list, tokencnt, percnt, 'Github 热门词汇统计')
+	print()
+	try:
+		analyse(gitee_list, tokencnt, percnt, 'Gitee 热门词汇统计')
+		analyse(github_list, tokencnt, percnt, 'Github 热门词汇统计')
+		analyse(csdn_list, tokencnt, percnt, 'Csdn 搜索词汇统计')
+	except:
+		print("> Analyse data error")
 	
 	plt.show()

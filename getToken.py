@@ -1,7 +1,7 @@
-import jieba
 import jieba.analyse
 import re, string
-
+import logging
+jieba.setLogLevel(logging.INFO)
 def HandlePunctuation(w):
 	'''
 	处理标点符号

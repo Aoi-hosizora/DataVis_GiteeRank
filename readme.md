@@ -1,7 +1,12 @@
-# Data Visualization of Gitee's Repo Rank
+# Data Visualization of Some Rank
 
 + SCUT 2019 Computing Thinking 
 + Big Project of School
+
+### Date
++ Gitee repo rank
++ Github repo rank
++ CSDN search keyword rank
 
 ### Environment
 + Python 3.6.3

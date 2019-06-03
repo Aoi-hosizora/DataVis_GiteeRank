@@ -11,14 +11,26 @@ class WebSite(Enum):
 
 GiteeURL = 'https://gitee.com/explore/starred'
 GithubURL = 'https://github.com/trending?since=daily'
+CsdnPartURL = 'https://www.csdn.net/gather/'
+
+class GetDataNetWorkException(Exception):
+	def __init__(self, website):
+		Exception.__init__(self)
+		self.website = website  
+
+	def printErrorMsg(self):
+		print("> Get data from {} network error".format(self.website))
+
+def printGetDataSuccess(website):
+	print("> Get data from {} finish".format(website))
 
 def getData(opt):
 	'''
 	获取:
-	Gitee / Github 热门仓库的名称和描述
-	Csdn 热门帖标题
+	Gitee / Github 热门仓库的名称和描述，返回 len(desc), title, desc
+	Csdn 热门帖标题，len(desc), title(Null), desc
 	'''
-	
+
 	def removeSpAndNull(l):
 		'''
 		去除 List 内的空字符串与空项
@@ -29,23 +41,43 @@ def getData(opt):
 		return l
 
 	if opt == WebSite.Gitee:
-		html = requests.get(GiteeURL)
+		try:
+			html = requests.get(GiteeURL)
+		except:
+			raise GetDataNetWorkException("Gitee")
+		
 		et = etree.HTML(html.text)
 		title = et.xpath('//a[@class="title project-namespace-path"]/text()')
 		desc = et.xpath('//div[@class="project-desc"]/text()')
-		return len(title), title, desc
+		printGetDataSuccess('Gitee')
 
 	elif opt == WebSite.Github:
-		html = requests.get(GithubURL)
-		et = etree.HTML(html.text)
+		try:
+			html = requests.get(GithubURL)
+		except:
+			raise GetDataNetWorkException("Github")
 
+		et = etree.HTML(html.text)
 		title = et.xpath('//li[@class="col-12 d-block width-full py-4 border-bottom"]/div[@class="d-inline-block col-9 mb-1"]//a/text()')
 		title = removeSpAndNull(title)
 
 		desc = et.xpath('//li[@class="col-12 d-block width-full py-4 border-bottom"]/div[@class="py-1"]//p/text()')
 		desc = removeSpAndNull(desc)
-		return len(title), title, desc
+		printGetDataSuccess('Github')
 		
-	elif opt == WebSite.Casn:
-		pass
-	
+	elif opt == WebSite.Csdn:
+		title = []
+		desc = []
+		for i in range(ord('A'), ord('Z') + 1):
+			try:
+				CsdnURL = CsdnPartURL + chr(i)
+				html = requests.get(CsdnURL)
+			except:
+				raise GetDataNetWorkException("Csdn")
+
+			et = etree.HTML(html.text)
+			desc += et.xpath('//ul[@class="tag_list_wrap"]//a/text()')
+
+		printGetDataSuccess('Csdn')
+
+	return len(desc), title, desc
