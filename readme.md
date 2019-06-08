@@ -18,4 +18,4 @@
 ```bash
 python3 main.py
 ```
-![ShotCut](./ScreenShotCut (6-3) .jpg)
+![ShotCut](./ScreenShotCut_(6-3).jpg)
